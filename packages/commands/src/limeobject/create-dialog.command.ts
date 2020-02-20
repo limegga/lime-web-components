@@ -21,4 +21,9 @@ export class CreateLimeobjectDialogCommand {
      * Default data to populate the form with
      */
     public limeobject?: any;
+
+    /**
+     * Specifies if routing to limeobject should be done after confirmation
+     */
+    public route?: boolean = false;
 }
