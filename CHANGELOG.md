@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/Lundalogik/lime-web-components/compare/v2.2.1...v2.3.0) (2020-02-21)
+
+
+### Features
+
+* **dialog command:** add optional route property on createlimeobjectdialogcommand ([114d547](https://github.com/Lundalogik/lime-web-components/commit/114d5472464f3b4845f889ef7227bd5a5a29191c))
+
+
+
+
+
 ## [2.2.1](https://github.com/Lundalogik/lime-web-components/compare/v2.2.0...v2.2.1) (2020-01-09)
 
 
