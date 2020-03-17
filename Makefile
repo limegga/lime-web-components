@@ -5,11 +5,6 @@ build:
 	@# Builds the ci image lime-web-components.
 	docker build --pull -t $(DOCKER_IMAGE) .
 
-.PHONY: lint
-lint:
-	@# Lints all applicable files.
-	docker run --rm -w /lime $(DOCKER_IMAGE) npm run lint
-
 .PHONY: commitlint
 commitlint: HASH=''
 commitlint:
