@@ -5,12 +5,6 @@ build:
 	@# Builds the ci image lime-web-components.
 	docker build --pull -t $(DOCKER_IMAGE) .
 
-.PHONY: commitlint
-commitlint: HASH=''
-commitlint:
-	@# Lint the commit message of the commit with the given HASH
-	docker run --rm -w /lime $(DOCKER_IMAGE) npx commitlint -f $(HASH)^ -t $(HASH)
-
 .PHONY: release_dry_run
 release_dry_run: BRANCH='master'
 release_dry_run:
