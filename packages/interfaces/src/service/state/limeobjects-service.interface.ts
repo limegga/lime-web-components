@@ -1,3 +1,4 @@
+import { Expression } from '../../query.interface';
 import { StateService } from '../state-service.interface';
 
 export interface LimeobjectsStateService extends StateService {
@@ -8,6 +9,23 @@ export interface LimeobjectsStateService extends StateService {
      * @param {number} id
      */
     loadObject(limetype: string, id: number): void;
+
+    /**
+     * Load related objects into the state
+     *
+     * @param {string} limetype name of the limetype of the owning limeobject
+     * @param {number} id the id of the owning limeobject
+     * @param {string} property name of the property that contain the relations
+     * @param {LoadOptions} options options about the objects to load
+     *
+     * @returns {ObjectResponse} list of related objects together with total count of objects
+     */
+    loadRelations(
+        limetype: string,
+        id: number,
+        property: string,
+        options?: LoadOptions
+    ): Promise<ObjectResponse>;
 
     /**
      * Reload the specified limeobject and update corresponding views in the webclient
@@ -22,4 +40,33 @@ export interface LimeobjectsStateService extends StateService {
      * @deprecated
      */
     reloadObject?(limetype: string, id: number): void;
+}
+
+export interface LoadOptions {
+    /**
+     * Maximum number of objects to load
+     */
+    limit?: number;
+
+    /**
+     * Offset of the objects to load
+     */
+    offset?: number;
+
+    /**
+     * Filter to apply to the objects
+     */
+    filter?: Expression;
+}
+
+export interface ObjectResponse {
+    /**
+     * The objects that matched the query
+     */
+    objects: object[];
+
+    /**
+     * Total number of objects that exist matching the query
+     */
+    totalCount: number;
 }
