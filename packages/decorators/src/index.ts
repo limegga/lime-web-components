@@ -1,8 +1,10 @@
 /* tslint:disable:no-invalid-this */
 import {
+    LimeWebComponent,
     LimeWebComponentPlatform,
     StateOptions,
 } from '@limetech/lime-web-components-interfaces';
+import { getElement } from '@stencil/core';
 
 export * from './state/application-name';
 export * from './state/configs';
@@ -55,17 +57,17 @@ interface ComponentMapping {
 export function createStateDecorator(
     options: StateOptions,
     config: StateDecoratorConfig
-) {
-    return (component: any, property: string) => {
+): PropertyDecorator {
+    return (target: Component, property: string) => {
         const componentMapping = getComponentMapping(
-            component,
+            target,
             property,
             options,
             config
         );
 
         if (componentMapping.properties.length === 1) {
-            extendLifecycleMethods(component, componentMapping.properties);
+            extendLifecycleMethods(target, componentMapping.properties);
         }
     };
 }
@@ -130,7 +132,9 @@ function extendLifecycleMethods(component: Component, properties: Property[]) {
     const originalComponentDidUnload = component.componentDidUnload;
     const subscriptions: Subscription[] = [];
 
-    component.componentWillLoad = function(...args) {
+    component.componentWillLoad = async function(...args) {
+        await ensureLimeProps(this);
+
         properties.forEach(property => {
             subscribe.apply(this, [subscriptions, property]);
         });
@@ -147,6 +151,54 @@ function extendLifecycleMethods(component: Component, properties: Property[]) {
 
         unsubscribeAll.apply(this, [subscriptions]);
     };
+}
+
+/**
+ * Make sure that all required lime properties are set on the web component
+ *
+ * @param {LimeWebComponent} target the web component
+ *
+ * @returns {Promise<any>} a promise that resolves when all properties are defined
+ */
+function ensureLimeProps(target: LimeWebComponent): Promise<any> {
+    const promises = [];
+    if (!target.platform) {
+        promises.push(waitForProp(target, 'platform'));
+    }
+
+    if (!target.context) {
+        promises.push(waitForProp(target, 'context'));
+    }
+
+    if (!promises.length) {
+        return Promise.resolve();
+    }
+
+    return Promise.all(promises);
+}
+
+/**
+ * Wait for a property to be defined on an object
+ *
+ * @param {LimeWebComponent} target the web component
+ * @param {string} property the name of the property to watch
+ *
+ * @returns {Promise<void>} a promise that will resolve when the property is set on the object
+ */
+function waitForProp(
+    target: LimeWebComponent,
+    property: string
+): Promise<void> {
+    const element = getElement(target);
+    return new Promise(resolve => {
+        Object.defineProperty(element, property, {
+            set: (value: any) => {
+                delete element[property];
+                element[property] = value;
+                resolve();
+            },
+        });
+    });
 }
 
 /**
