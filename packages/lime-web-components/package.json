@@ -1,6 +1,6 @@
 {
   "name": "@limetech/lime-web-components",
-  "version": "2.4.0",
+  "version": "2.4.1-alpha.0",
   "author": "Lime Technologies",
   "homepage": "https://github.com/Lundalogik/lime-web-components",
   "license": "Apache-2.0",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@limetech/lime-web-components-commands": "^2.4.0",
-    "@limetech/lime-web-components-decorators": "^2.4.0",
+    "@limetech/lime-web-components-decorators": "^2.4.1-alpha.0",
     "@limetech/lime-web-components-interfaces": "^2.4.0"
   }
 }
