@@ -13,7 +13,7 @@ registry=https://registry.npmjs.org/
 //registry.npmjs.org/:_authToken=${NPM_TOKEN}
 EOL
 
-npx lerna version --loglevel=DEBUG --conventional-commits --conventional-graduate --create-release=github --yes
+npx lerna version --loglevel=DEBUG --conventional-commits --create-release=github --yes
 npx lerna --loglevel=INFO publish from-git --yes
 
 rm .npmrc
