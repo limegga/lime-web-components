@@ -32,10 +32,8 @@ jobs:
   commitlint:
     name: Commitlint
     runs-on: ubuntu-latest
-
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - uses: actions/checkout@v1
       - uses: Lundalogik/commitlint-github-action@master
@@ -43,7 +41,6 @@ jobs:
   autosquash:
     name: Block Autosquash Commits
     runs-on: ubuntu-latest
-
     steps:
       - name: Block Autosquash Commits
         uses: Lundalogik/block-autosquash-commits-action@master
@@ -53,9 +50,7 @@ jobs:
   wip:
     name: "Block WIP PR:s"
     runs-on: ubuntu-latest
-
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     steps:
       - uses: wip/action@v1.0.0
