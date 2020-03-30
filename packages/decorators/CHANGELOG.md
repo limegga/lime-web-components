@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1-alpha.1](https://github.com/Lundalogik/lime-web-components/compare/v2.4.0...v2.4.1-alpha.1) (2020-03-30)
+
+
+### Bug Fixes
+
+* **decorators:** wait for lime properties in componentWillLoad ([d9193e3](https://github.com/Lundalogik/lime-web-components/commit/d9193e3e4dc1d2892dbb766a6fd9a0e2234e4da0)), closes [Lundalogik/crm-feature#1004](https://github.com/Lundalogik/crm-feature/issues/1004)
+
+
+
+
+
 ## [2.4.1-alpha.0](https://github.com/Lundalogik/lime-web-components/compare/v2.4.0...v2.4.1-alpha.0) (2020-03-30)
 
 
