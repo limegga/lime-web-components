@@ -5,7 +5,9 @@
         "lib": ["es2017", "dom"],
         "experimentalDecorators": true,
         "declaration": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "removeComments": false
     },
     "exclude": ["./node_modules"]
 }
