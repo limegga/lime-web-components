@@ -37,12 +37,6 @@ export function createPlatform(): LimeWebComponentPlatform {
     return new TestingPlatform();
 }
 
-/**
- * A default platform that will be used if no platform is given
- * when a component is created
- */
-export const defaultPlatform = createDefaultPlatform();
-
 export const defaultContext: LimeWebComponentContext = {
     limetype: null,
     id: null,
@@ -74,10 +68,6 @@ function createServiceProxy(service: any) {
     return new Proxy(service, handler);
 }
 
-function createDefaultPlatform() {
-    return createPlatform();
-}
-
 function createDefaultService() {
-    return createServiceProxy({});
+    return {};
 }

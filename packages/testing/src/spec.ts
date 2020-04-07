@@ -1,5 +1,7 @@
+// tslint:disable:no-invalid-this
 import { SpecPage } from '@stencil/core/testing';
-import { defaultContext, defaultPlatform } from './platform';
+import { getElement } from '@stencil/core';
+import { defaultContext, createPlatform } from './platform';
 
 export interface ComponentProps {
     [name: string]: any;
@@ -11,9 +13,19 @@ export interface ComponentListeners {
 
 export interface ComponentConfig {
     /**
-     * The props to give the component
+     * Tag name of the component
+     */
+    tag: string;
+
+    /**
+     * The props to give the component when it is created
      */
     props?: ComponentProps;
+
+    /**
+     * The initial state to give the component when it is created
+     */
+    state?: object;
 
     /**
      * Any listeners to attach to the component
@@ -26,23 +38,37 @@ export interface ComponentConfig {
     children?: HTMLElement[];
 }
 
-const DESTROY_FUNCTION_NAME = '__removeListeners';
+interface Hooks {
+    [key: string]: () => void;
+}
+
+const componentConfigs = new WeakMap<any, ComponentConfig>();
+const componentInstances = new WeakMap<HTMLElement, any>();
+const originalHooks = new WeakMap<any, Hooks>();
+const destroyFunctions = new WeakMap<HTMLElement, () => void>();
 
 /**
  * Create a new component
  *
+ * @param {*} component the component class
  * @param {SpecPage} page the page to create the component on
- * @param {string} name the name of the component
  * @param {ComponentConfig} config component configuration
  *
  * @returns {HTMLElement} the component
  */
 export function createComponent(
+    component: any,
     page: SpecPage,
-    name: string,
-    config: ComponentConfig = {}
+    config: ComponentConfig
 ): HTMLElement {
-    const element = page.doc.createElement(name);
+    componentConfigs.set(component.prototype, config);
+    extendLifecycleHook(
+        component.prototype,
+        'componentWillLoad',
+        initComponent
+    );
+
+    const element = page.doc.createElement(config.tag);
     const props = config.props || {};
     const listeners = config.listeners || {};
     const children = config.children || [];
@@ -52,9 +78,9 @@ export function createComponent(
     addListeners(listeners, element);
     addChildren(element, children);
 
-    element[DESTROY_FUNCTION_NAME] = () => {
+    destroyFunctions.set(element, () => {
         removeListeners(listeners, element);
-    };
+    });
 
     page.body.appendChild(element);
 
@@ -73,11 +99,71 @@ export function destroyComponent(component: HTMLElement): void {
         return;
     }
 
-    if (!(DESTROY_FUNCTION_NAME in component)) {
+    const destroyFunction = destroyFunctions.get(component);
+    if (!destroyFunction) {
         return;
     }
 
-    component[DESTROY_FUNCTION_NAME]();
+    destroyFunction();
+}
+
+/**
+ * Set a state variable on the component
+ *
+ * @param {HTMLElement} component the component
+ * @param {object} state the state variables to set along with their values
+ *
+ * @returns {void}
+ */
+export function setState(component: HTMLElement, state: object) {
+    const instance = componentInstances.get(component);
+    Object.assign(instance, state);
+}
+
+/**
+ * Init a component that is under test
+ *
+ * This is called just before the `componentWillLoad` lifecycle hook
+ * of the component and is a good place to save the component instance
+ * and set the initial state
+ *
+ * @returns {void}
+ */
+function initComponent() {
+    const element = getElement(this);
+    componentInstances.set(element, this);
+
+    const config = componentConfigs.get(this.constructor.prototype);
+    if (config?.state) {
+        setState(element, config.state);
+    }
+}
+
+/**
+ * Extend a lifecycle hook on a component
+ *
+ * @param {*} component the prototype of the component
+ * @param {string} name the name of the hook
+ * @param {Function} hook the function to run before the original hook
+ *
+ * @returns {void}
+ */
+function extendLifecycleHook(component: any, name: string, hook: () => void) {
+    if (!originalHooks.has(component)) {
+        originalHooks.set(component, {});
+    }
+
+    const hooks = originalHooks.get(component);
+    if (!hooks[name]) {
+        hooks[name] = component[name];
+    }
+
+    component[name] = function(...args) {
+        hook.apply(this, args);
+        if (hooks[name]) {
+            return hooks[name].apply(this, args);
+        }
+    };
 }
 
 /**
@@ -91,7 +177,7 @@ export function destroyComponent(component: HTMLElement): void {
  */
 function setDefault(props: ComponentProps) {
     if (!('platform' in props)) {
-        props.platform = defaultPlatform;
+        props.platform = createPlatform();
     }
 
     if (!('context' in props)) {
