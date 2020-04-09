@@ -49,6 +49,7 @@ export default {
                 'RouteService',
                 'StateServices',
                 'TranslateService',
+                'UserStatisticsService',
             ],
         },
     ],
