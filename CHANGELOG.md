@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/Lundalogik/lime-web-components/compare/v2.4.1...v2.5.0) (2020-04-09)
+
+
+### Features
+
+* **user-statistics-service:** add user statistics service interface ([250486b](https://github.com/Lundalogik/lime-web-components/commit/250486b2968880eef516422aefa14c30152161ea))
+
+
+### Reverts
+
+* Revert "ci(release): graduate pre-releases" ([306e7a2](https://github.com/Lundalogik/lime-web-components/commit/306e7a2c0eaeda4006f3a4dde0912be7611fb272))
+
+
+
+
+
 ## [2.4.1](https://github.com/Lundalogik/lime-web-components/compare/v2.4.1-alpha.1...v2.4.1) (2020-03-30)
 
 **Note:** Version bump only for package lime-web-components
