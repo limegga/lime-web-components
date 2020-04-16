@@ -14,6 +14,9 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - run: npm ci
+    # The use of `npm install` instead of `npm ci` below is intentional.
+    # Using `npm ci` will make the build fail on the first of Greenkeeper's
+    # two commits. /Ads
+    - run: npm install
     - run: npm run build
     - run: npm test --if-present
