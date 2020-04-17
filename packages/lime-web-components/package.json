@@ -32,6 +32,7 @@
   "dependencies": {
     "@limetech/lime-web-components-commands": "^2.5.0",
     "@limetech/lime-web-components-decorators": "^2.5.0",
-    "@limetech/lime-web-components-interfaces": "^2.5.0"
+    "@limetech/lime-web-components-interfaces": "^2.5.0",
+    "@limetech/lime-web-components-testing": "^2.6.0"
   }
 }
