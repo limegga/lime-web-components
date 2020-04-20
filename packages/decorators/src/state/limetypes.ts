@@ -1,4 +1,5 @@
 import {
+    ContextAwareStateOptions,
     PlatformServiceName,
     StateOptions,
 } from '@limetech/lime-web-components-interfaces';
@@ -30,11 +31,12 @@ export function Limetypes(options: LimetypesOptions = {}) {
  *
  * @returns {Function} state decorator
  */
-export function CurrentLimetype(options: StateOptions = {}) {
+export function CurrentLimetype(options: ContextAwareStateOptions = {}) {
     const config: StateDecoratorConfig = {
         name: PlatformServiceName.LimetypesState,
     };
     options.map = [currentLimetype, ...(options.map || [])];
+    options.context = null;
 
     return createStateDecorator(options, config);
 }

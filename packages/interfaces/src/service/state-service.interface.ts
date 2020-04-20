@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { LimeWebComponentContext } from '../lime-web-component-context.interface';
+
 /**
  * Service for letting a Lime web component subscribe to state changes
  */
@@ -28,6 +31,16 @@ export interface StateOptions {
      * The functions will be bound to the web component instance
      */
     filter?: ((state: any) => boolean)[];
+}
+
+export interface ContextAwareStateOptions extends StateOptions {
+    /**
+     * An observable that emits a new value when the context of the component
+     * is changed. If set, the corresponding state service will emit a new value
+     * when the context has changed as well. Only applies to states that are
+     * aware of the context, e.g. `CurrentLimetype` and `CurrentLimeobject`
+     */
+    context?: Observable<LimeWebComponentContext>;
 }
 
 export * from './state/limeobjects-service.interface';

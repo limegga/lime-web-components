@@ -10,6 +10,12 @@ export interface LimePluginLoader extends LimeWebComponent {
     componentWillLoad(): void | Promise<any>;
 
     /**
+     * This method will never be called since the component will never
+     * be updated. It must still be present on the component though.
+     */
+    componentWillUpdate(): void | Promise<any>;
+
+    /**
      * This method will never be called since the component will live
      * during the whole lifespan of the application. It must still be
      * present on the component though.

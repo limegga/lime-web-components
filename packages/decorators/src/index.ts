@@ -1,10 +1,13 @@
 /* tslint:disable:no-invalid-this */
 import {
+    ContextAwareStateOptions,
     LimeWebComponent,
+    LimeWebComponentContext,
     LimeWebComponentPlatform,
     StateOptions,
 } from '@limetech/lime-web-components-interfaces';
 import { getElement } from '@stencil/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 export * from './state/application-name';
 export * from './state/configs';
@@ -28,7 +31,8 @@ export interface StateDecoratorConfig {
 }
 
 interface Component {
-    componentWillLoad: () => void;
+    componentWillLoad: () => void | Promise<void>;
+    componentWillUpdate: () => void | Promise<void>;
     componentDidUnload: () => void;
 }
 
@@ -73,6 +77,11 @@ export function createStateDecorator(
 }
 
 const componentMappings: ComponentMapping[] = [];
+const contexts = new WeakMap<object, LimeWebComponentContext>();
+const contextObservables = new WeakMap<
+    object,
+    Subject<LimeWebComponentContext>
+>();
 
 /**
  * Get mappings for a component, containing the properties with a state decorator for
@@ -129,18 +138,41 @@ interface Subscription {
  */
 function extendLifecycleMethods(component: Component, properties: Property[]) {
     const originalComponentWillLoad = component.componentWillLoad;
+    const originalComponentWillUpdate = component.componentWillUpdate;
     const originalComponentDidUnload = component.componentDidUnload;
     const subscriptions: Subscription[] = [];
 
     component.componentWillLoad = async function(...args) {
         await ensureLimeProps(this);
 
+        const observable = new BehaviorSubject(this.context);
+        contexts.set(this, this.context);
+        contextObservables.set(this, observable);
+
         properties.forEach(property => {
+            if (isContextAware(property.options)) {
+                property.options.context = observable;
+            }
+
             subscribe.apply(this, [subscriptions, property]);
         });
 
         if (originalComponentWillLoad) {
             return originalComponentWillLoad.apply(this, args);
+        }
+    };
+
+    component.componentWillUpdate = async function(...args) {
+        const context = contexts.get(this);
+        if (context !== this.context) {
+            contexts.set(this, this.context);
+
+            const observable = contextObservables.get(this);
+            observable.next(this.context);
+        }
+
+        if (originalComponentWillUpdate) {
+            return originalComponentWillUpdate.apply(this, args);
         }
     };
 
@@ -151,6 +183,17 @@ function extendLifecycleMethods(component: Component, properties: Property[]) {
 
         unsubscribeAll.apply(this, [subscriptions]);
     };
+}
+
+/**
+ * Check if the options are context aware
+ *
+ * @param {object} options state decorator options
+ *
+ * @returns {boolean} true if the options are context aware
+ */
+function isContextAware(options: object): options is ContextAwareStateOptions {
+    return 'context' in options;
 }
 
 /**
