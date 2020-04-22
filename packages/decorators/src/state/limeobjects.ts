@@ -40,7 +40,7 @@ export function CurrentLimeobject(options: StateOptions = {}) {
     return createStateDecorator(options, config);
 }
 
-function currentLimeobject(limeobjects: Record<string, Array<{ id: string }>>) {
+function currentLimeobject(limeobjects: Record<string, { id: string }[]>) {
     const { limetype, id } = this.context; // tslint:disable-line:no-invalid-this
 
     if (!limeobjects[limetype]) {

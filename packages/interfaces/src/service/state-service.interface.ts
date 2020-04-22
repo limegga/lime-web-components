@@ -21,13 +21,13 @@ export interface StateOptions {
      * List of functions that will be used to map the state.
      * The functions will be bound to the web component instance
      */
-    map?: Array<(state: any) => any>;
+    map?: ((state: any) => any)[];
 
     /**
      * List of functions that will be used to filter any changes to the state.
      * The functions will be bound to the web component instance
      */
-    filter?: Array<(state: any) => boolean>;
+    filter?: ((state: any) => boolean)[];
 }
 
 export * from './state/limeobjects-service.interface';

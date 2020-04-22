@@ -116,7 +116,7 @@ function getComponentMapping(
 
 interface Subscription {
     instance: any;
-    unsubscribes: Array<() => void>;
+    unsubscribes: (() => void)[];
 }
 
 /**

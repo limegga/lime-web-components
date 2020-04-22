@@ -24,13 +24,13 @@ export interface Property {
     name: string;
     required: boolean;
     type: PropertyType;
-    options?: Array<{
+    options?: {
         key: string;
         inactive: boolean;
         text: string;
         order?: number;
         id?: number;
-    }>;
+    }[];
     relation?: {
         getLimetype: () => Limetype;
         getBackreference: () => Property;
