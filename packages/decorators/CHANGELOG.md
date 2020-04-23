@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/Lundalogik/lime-web-components/compare/v2.6.2...v3.0.0) (2020-04-23)
+
+
+### Bug Fixes
+
+* **decorators:** emit new value when context has changed ([a87c93a](https://github.com/Lundalogik/lime-web-components/commit/a87c93a9ba0dbe3436111898a1bb43ef2de19558)), closes [Lundalogik/crm-feature#1011](https://github.com/Lundalogik/crm-feature/issues/1011)
+
+
+### BREAKING CHANGES
+
+* **decorators:** The `LimePluginLoader` interface now requires the method `componentWillUpdate` to
+be implemented. This is due to an issue in Stencil where the functionality of the function is not
+included in the build unless at least one component in the project is using it. Since this fix is
+using the `componentWillUpdate` function under the hood, it is now required that plugins add it to
+their projects.
+
+
+
+
+
 ## [2.6.2](https://github.com/Lundalogik/lime-web-components/compare/v2.6.1...v2.6.2) (2020-04-22)
 
 **Note:** Version bump only for package @limetech/lime-web-components-decorators
