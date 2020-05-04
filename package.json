@@ -29,6 +29,7 @@
     "lerna": "3.20.2",
     "replace-in-file": "6.0.0",
     "shelljs": "0.8.4",
+    "snyk": "^1.317.0",
     "tslint": "6.1.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-eslint-rules": "5.4.0",
