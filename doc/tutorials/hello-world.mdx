@@ -50,11 +50,11 @@ Our hello-world component is located in `src/components/lwc-my-plugin-hello-worl
 The finished component should look something like this:
 
 ```tsx
-import { Component, Element, Prop } from '@stencil/core';
+import { Component, Element, h, Prop } from '@stencil/core';
 import { LimeWebComponent, LimeWebComponentContext, LimeWebComponentPlatform } from '@limetech/lime-web-components-interfaces';
 
 @Component({
-    tag: 'lwc-my-plugin-hello-world',
+    tag: 'lwc-limepkg-my-plugin-hello-world',
     shadow: true
 })
 export class HelloWorld implements LimeWebComponent {
