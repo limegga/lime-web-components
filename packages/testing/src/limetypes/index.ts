@@ -7,6 +7,7 @@ import { coworker } from './coworker';
 import { deal } from './deal';
 import { helpdesk } from './helpdesk';
 import { helpdesktype } from './helpdesktype';
+import { history } from './history';
 import { infotiles } from './infotiles';
 import { localize } from './localize';
 import { mailing } from './mailing';
