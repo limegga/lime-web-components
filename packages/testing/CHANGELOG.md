@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/Lundalogik/lime-web-components/compare/v3.1.0...v3.1.1) (2020-05-14)
+
+
+### Bug Fixes
+
+* **testing:** correctly expose history limetype ([9dc6e7a](https://github.com/Lundalogik/lime-web-components/commit/9dc6e7a053e8e01f3d054925da1504b9f172f8ae))
+
+
+
+
+
 # [3.1.0](https://github.com/Lundalogik/lime-web-components/compare/v3.0.0...v3.1.0) (2020-05-04)
 
 
