@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/Lundalogik/lime-web-components/compare/v3.1.1...v3.2.0) (2020-05-15)
+
+
+### Features
+
+* **testing:** add document limeobject for testing ([f962c9d](https://github.com/Lundalogik/lime-web-components/commit/f962c9d33d155fb4f0a1f6d9a30af96b7cea9b95))
+
+
+
+
+
 ## [3.1.1](https://github.com/Lundalogik/lime-web-components/compare/v3.1.0...v3.1.1) (2020-05-14)
 
 
