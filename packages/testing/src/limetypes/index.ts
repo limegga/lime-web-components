@@ -19,6 +19,7 @@ import { solutionimprovement } from './solutionimprovement';
 import { successplan } from './successplan';
 import { target } from './target';
 import { todo } from './todo';
+import { document } from './document';
 
 export const limetypes: Record<string, Limetype> = {
     company: company,

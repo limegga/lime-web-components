@@ -2,6 +2,7 @@ import { company } from './company';
 import { coworker } from './coworker';
 import { deal } from './deal';
 import { person } from './person';
+import { document } from './document';
 
 export const limeobjects = {
     company: company,
@@ -14,7 +15,7 @@ export const limeobjects = {
     recipient: [],
     helpdesktype: [],
     successplan: [],
-    document: [],
+    document: document,
     consenttype: [],
     infotiles: [],
     participant: [],
